@@ -20,7 +20,11 @@ export default function MinecraftSkinClothes() {
     e.preventDefault();
     const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
     try {
-      const response = await fetch(`${backendUrl}/skins`);
+      const response = await fetch(`${backendUrl}/skins_url/${username}`, {
+        headers: {
+          "X-API-Key": import.meta.env.VITE_APP_API_KEY,
+        },
+      });
       if (!response.ok) {
         if (response.status === 404) {
           setErrorMessages({
@@ -49,7 +53,11 @@ export default function MinecraftSkinClothes() {
     const fetchClothes = async () => {
       const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
       try {
-        const response = await fetch(`${backendUrl}/skins`);
+        const response = await fetch(`${backendUrl}/skins`, {
+          headers: {
+            "X-API-Key": import.meta.env.VITE_APP_API_KEY,
+          },
+        });
         if (!response.ok) throw new Error("Failed to fetch skins");
 
         const clothesData = await response.json();
@@ -77,6 +85,7 @@ export default function MinecraftSkinClothes() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-API-Key": import.meta.env.VITE_APP_API_KEY,
         },
         body: JSON.stringify(payload),
       });
@@ -107,9 +116,11 @@ export default function MinecraftSkinClothes() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+      <h1 className="text-3xl font-bold text-center">MCWardrobe</h1>
+      <h4 className="text-xl font-medium mb-6 text-center">
+        {" "}
         Minecraft Skin Clothes
-      </h1>
+      </h4>
       <form onSubmit={handleSearch} className="mb-6 flex gap-4 justify-center">
         <Input
           type="text"

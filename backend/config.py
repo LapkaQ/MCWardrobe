@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     DATABASE_PASSWORD: str
     DATABASE_PORT: int
     DATABASE_NAME: str
+    API_KEY: str
     
     class Config:
         env_file = "../.env"

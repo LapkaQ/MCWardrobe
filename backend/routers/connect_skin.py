@@ -8,6 +8,7 @@ import base64
 from io import BytesIO
 import requests
 from PIL import Image
+from services.security import check_api_key
 
 router = APIRouter(prefix="/connect_skins", tags=["Connect Skin"])
 db_dependency = Annotated[Session, Depends(database.get_db)]
@@ -22,7 +23,7 @@ class CropRequest(BaseModel):
     top: int
     bottom: int
 @router.post("/")
-def connect_skins(request: ImageRequest):
+def connect_skins(request: ImageRequest, api_key: str = Depends(check_api_key)):
     try:
         # Pobierz pierwszy obraz z URL
         response = requests.get(request.image_url)
