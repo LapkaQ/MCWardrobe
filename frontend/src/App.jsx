@@ -18,11 +18,9 @@ export default function MinecraftSkinClothes() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/skins_url/${username}`
-      );
+      const response = await fetch(`${backendUrl}/skins`);
       if (!response.ok) {
         if (response.status === 404) {
           setErrorMessages({
@@ -49,8 +47,9 @@ export default function MinecraftSkinClothes() {
 
   useEffect(() => {
     const fetchClothes = async () => {
+      const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
       try {
-        const response = await fetch("http://127.0.0.1:8000/skins");
+        const response = await fetch(`${backendUrl}/skins`);
         if (!response.ok) throw new Error("Failed to fetch skins");
 
         const clothesData = await response.json();
@@ -67,13 +66,14 @@ export default function MinecraftSkinClothes() {
   }, []);
 
   const handleChangeSkin = async (item) => {
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
     const payload = {
       image_url: user.skin_url,
       image_base64: item.skin,
       model: user.model,
     };
     try {
-      const response = await fetch(`http://127.0.0.1:8000/connect_skins/`, {
+      const response = await fetch(`${backendUrl}/connect_skins/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
